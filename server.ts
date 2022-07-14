@@ -18,7 +18,7 @@ const io = new Server(server, {
     },
 });
 
-const users = [new Player(uuid4(), null, "victor", "123")]
+const users = [new Player(uuid4(), null, "victor", "victor", "123")]
 
 const matches: Array<Match> = new Array<Match>();
 
@@ -32,8 +32,7 @@ io.on('connection', (socket: Socket) => {
         if (users.find((p: Player) => p.email === player.email && p.password === player.password)) {
             connect(socket, player);
         }
-
-
+        socket.emit('login', "invalid user");
     });
 })
 
