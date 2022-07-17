@@ -8,6 +8,7 @@ import {PlayerPlacementJson} from './models/player_placement_json';
 import {PlayerGuessJson} from './models/player_guess_json';
 import {ShipFactory} from './models/shipfactory';
 import {Point} from './models/point';
+import {Lobby} from "./models/lobby";
 
 const app = express();
 const PORT = process.env.PORT || 3000
@@ -18,26 +19,59 @@ const io = new Server(server, {
     },
 });
 
-const users = [new Player(uuid4(), null, "victor", "123")]
+const users = [new Player(uuid4(), null, "victor", "victor", "123")]
 
 const matches: Array<Match> = new Array<Match>();
+
+const lobby = new Lobby();
 
 io.on('connection', (socket: Socket) => {
     console.log(socket.id);
     socket.on('login', (json: string) => {
-        console.log(json);
-
-        let player: Player = JSON.parse(json);
+        let player: Player = JSON.parse(JSON.stringify(json));
+        player.socket = socket
 
         if (users.find((p: Player) => p.email === player.email && p.password === player.password)) {
-            connect(socket, player);
+            socket.emit('login', 'found player');
+            connectLobby(socket, player);
+        } else {
+            socket.emit('login', 'invalid player');
         }
-
-
     });
+
+    socket.on('disconnect', (reason: any) => {
+        console.log(reason);
+    })
 })
 
-const connect = (socket: Socket, player: Player) => {
+const connectLobby = (socket: Socket, player: Player) => {
+    if (!lobby.players.find((p: Player) => p.email === player.email)) {
+        lobby.players.push(player);
+        socket.emit('lobby', 'added player to lobby');
+        socket.join('lobby');
+
+        // system notify players
+        io.to('lobby').emit('system message', "player: " + player.name + " joined the lobby");
+
+        // player message
+        socket.on('message', (message: string) => {
+            io.to('lobby').emit('message', player.name + ": " + message);
+        })
+    } else {
+        socket.emit('lobby', 'player already on lobby');
+    }
+
+    socket.on("create room", (json: string) => {
+    });
+    socket.on("join room", (json: string) => {
+    });
+    socket.on("logout", (json: string) => {
+        lobby.players = lobby.players.filter((p: Player) => !(p.email == player.email));
+        io.to('lobby').emit('system message', "player: " + player.name + " logged out");
+    });
+}
+
+const match = (socket: Socket, player: Player) => {
     player.socket = socket
     let matchNumber = matches.length;
     let message = 'Waiting for player 2!\n';
@@ -64,10 +98,6 @@ const connect = (socket: Socket, player: Player) => {
 
     socket.join('match' + matchId);
     io.to('match' + matchId).emit('message', message + ' Match id = ' + matchId);
-
-    socket.on('disconnect', (reason: any) => {
-        console.log(reason);
-    })
 
     socket.on("place", (json: string) => {
         console.log(json);

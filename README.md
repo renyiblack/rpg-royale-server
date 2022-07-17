@@ -1,4 +1,4 @@
-# battleship
+# rpg royale server
 
 Para rodar o servidor basta realizar:
 ```
@@ -10,7 +10,4 @@ Para rodar o servidor basta realizar:
 
 para rodar o client basta realizar:
 ```
-    cd battleship-client
-    npm install
-    npm start
 ```

@@ -4,20 +4,20 @@ import {Board} from "./board";
 import {Ship} from "./ship";
 
 export class Player {
-    id: number;
+    id: string;
     email: string;
     name: string;
     password: string;
     socket: Socket | null;
     board: Board;
 
-    constructor(id: string, socket: Socket | null, login: string, password: string) {
-        this.id = -1;
-        this.socket = null;
+    constructor(id: string, socket: Socket | null, name: string, email: string, password: string) {
+        this.id = id;
+        this.socket = socket;
         this.board = Board.fromXY(10, 10);
-        this.name = "";
-        this.email = "";
-        this.password = "";
+        this.name = name;
+        this.email = email;
+        this.password = password;
     }
 
 
