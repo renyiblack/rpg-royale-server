@@ -71,7 +71,7 @@ const connectLobby = (socket: Socket, player: Player) => {
     });
 }
 
-const match = (socket: Socket, player: Player) => {
+const connectMatch = (socket: Socket, player: Player) => {
     player.socket = socket
     let matchNumber = matches.length;
     let message = 'Waiting for player 2!\n';
