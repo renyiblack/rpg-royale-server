@@ -14,7 +14,7 @@ export const connectLobby = (socket, player) => {
         socket.send('message', JSON.stringify({'type': 'lobby', 'message': 'added player to lobby'}));
 
         // system notify players
-        socket.send(JSON.stringify({'type': 'lobby', 'message': "player: " + player.name + " joined the lobby"}));
+        socket.send(JSON.stringify({'type': 'lobby', 'message': "system: " + player.name + " joined the lobby"}));
     } else {
         socket.send(JSON.stringify({'type': 'login', 'message': 'player already logged in'}));
     }
