@@ -5,7 +5,7 @@ import {connectLobby, Lobby} from "./lobby.js";
 
 const wss = new WebSocketServer({port: 8080});
 
-export const users = [new Player(uuid4(), "victor", "victor", "123", null)]
+export const users = [new Player(uuid4(), "victor", "victor", "123", null), new Player(uuid4(), "victora", "victora", "123", null)]
 export const lobby = new Lobby();
 
 wss.on('connection', function connection(ws) {

@@ -14,7 +14,7 @@ export const connectLobby = (socket, player) => {
         socket.send('message', JSON.stringify({'type': 'lobby', 'message': 'added player to lobby'}));
 
         // system notify players
-        socket.send(JSON.stringify({'type': 'lobby', 'message': "system: " + player.name + " joined the lobby"}));
+        sendToAllLobby("system: " + player.name + " joined the lobby")
     } else {
         socket.send(JSON.stringify({'type': 'login', 'message': 'player already logged in'}));
     }
@@ -27,4 +27,8 @@ export const connectLobby = (socket, player) => {
     //     lobby.players = lobby.players.filter((p) => !(p.email === player.email));
     //     socket.send(JSON.stringify({'type': 'lobby', 'message': "player: " + player.name + " logged out"}));
     // });
+}
+
+export const sendToAllLobby = (message)=>{
+    lobby.players.forEach(p => p.socket.send(JSON.stringify({'type': 'lobby', 'message': message})));
 }
