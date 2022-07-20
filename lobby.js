@@ -1,9 +1,11 @@
 import {lobby} from "./server.js";
 
 export class Lobby {
+    id;
     players;
 
-    constructor() {
+    constructor(id) {
+        this.id = id;
         this.players = [];
     }
 }
