@@ -4,7 +4,7 @@ import {Player} from "./player.js";
 import {connectLobby, Lobby} from "./lobby.js";
 import {createRoom} from "./room.js";
 
-const wss = new WebSocketServer({port: 8080});
+const wss = new WebSocketServer({port: 8081});
 
 export const users = [new Player(uuid4(), "victor", "victor", "123", null), new Player(uuid4(), "victora", "victora", "123", null)]
 export const lobby = new Lobby();
