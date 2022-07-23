@@ -2,7 +2,7 @@ import {WebSocketServer} from 'ws'
 import {v4 as uuid4} from 'uuid';
 import {Player} from "./models/player.js";
 import {connectLobby, Lobby} from "./lobby.js";
-import {createRoom, joinRoom} from "./room.js";
+import {collect, createRoom, joinRoom} from "./room.js";
 
 const wss = new WebSocketServer({port: 8081});
 
@@ -42,6 +42,9 @@ wss.on('connection', function connection(ws) {
                 break
             case "join room":
                 joinRoom(player);
+                break
+            case "collect":
+                collect(player);
                 break
             default:
                 break
