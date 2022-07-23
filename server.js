@@ -1,8 +1,8 @@
 import {WebSocketServer} from 'ws'
 import {v4 as uuid4} from 'uuid';
-import {Player} from "./player.js";
+import {Player} from "./models/player.js";
 import {connectLobby, Lobby} from "./lobby.js";
-import {createRoom} from "./room.js";
+import {createRoom, joinRoom} from "./room.js";
 
 const wss = new WebSocketServer({port: 8081});
 
@@ -14,7 +14,9 @@ wss.on('connection', function connection(ws) {
     ws.on('message', (data) => {
         let player = JSON.parse(data.toString())
 
-        player.socket = ws
+        console.log(player);
+
+        player.socket = ws;
 
         switch (player['messageType']) {
             case "login":
@@ -37,6 +39,9 @@ wss.on('connection', function connection(ws) {
                 break
             case "create room":
                 createRoom(player);
+                break
+            case "join room":
+                joinRoom(player);
                 break
             default:
                 break
