@@ -1,13 +1,10 @@
 # rpg royale server
 
-Para rodar o servidor basta realizar:
-```
-    cd server
-    npm install
-    npm install ts-node
-    ts-node .\server.ts
-```
+## How to run the server
 
-para rodar o client basta realizar:
+With node installed, we just do:
+
 ```
+    npm install
+    npm start
 ```
