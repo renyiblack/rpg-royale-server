@@ -4,7 +4,8 @@
 
 With node installed, we just do:
 
-```
-    npm install
-    npm start
-```
+``` npm install ```
+
+and
+
+``` npm start ```
